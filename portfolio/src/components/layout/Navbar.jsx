@@ -2,24 +2,24 @@ import { Mail, Github, Linkedin } from "lucide-react";
 
 const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Journey", href: "#journey" },
+  { label: "Experience", href: "#journey" },
   { label: "Projects", href: "#projects" },
 ];
 
 const socialLinks = [
   {
     label: "Email",
-    href: "mailto:your-email@example.com",
+    href: "mailto:debnathshruti477@gmail.com",
     icon: Mail,
   },
   {
     label: "GitHub",
-    href: "https://github.com/yourusername",
+    href: "https://github.com/shruti-246",
     icon: Github,
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/your-linkedin",
+    href: "https://www.linkedin.com/in/shrutidebnath224/",
     icon: Linkedin,
   },
 ];
@@ -30,8 +30,20 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 md:px-10 lg:px-12">
         <div className="flex items-center gap-10">
           <a href="#hero" className="flex items-center gap-3">
-            <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent)] shadow-[0_0_14px_rgba(78,231,212,0.7)]" />
-            <span className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-100">
+            {/* <span
+              className="h-3 w-3 rounded-full"
+              style={{
+                background: "var(--accent)",
+                boxShadow: "0 0 14px var(--accent-soft)",
+              }}
+            /> */}
+            <span className="text-[18px] font-mono text-[var(--accent)]">
+              &lt;/&gt;
+            </span>
+            <span
+              className="font-mono text-sm font-medium uppercase tracking-[0.22em]"
+              style={{ color: "var(--text-main)" }}
+            >
               Shruti Debnath
             </span>
           </a>
@@ -41,7 +53,8 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium text-slate-300 transition hover:text-[var(--accent)]"
+                className="text-sm font-medium transition-colors duration-200 hover:text-[var(--accent-strong)]"
+                style={{ color: "var(--text-main)" }}
               >
                 {link.label}
               </a>
@@ -57,9 +70,9 @@ export default function Navbar() {
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noreferrer" : undefined}
               aria-label={label}
-              className="text-slate-300 transition hover:text-[var(--accent)]"
+              className="ui-icon-button h-10 w-10 text-[var(--text-main)]"
             >
-              <Icon size={20} strokeWidth={2} />
+              <Icon size={18} strokeWidth={2} />
             </a>
           ))}
         </div>

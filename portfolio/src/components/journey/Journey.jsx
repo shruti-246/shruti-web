@@ -1,156 +1,286 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Journey() {
-  const headingFull = "/ academic_background";
+  const experienceHeadingFull = "/ leadership experience";
+  const updateHeadingFull = "/ up_to_date";
 
-  const educationLines = [
-    "[2022 — Present]",
-    "University of Idaho",
-    "B.S. in Computer Science",
-    "Minor in Mathematics",
-    "Academic Certificate in AI/ML",
+  const experiences = [
+    {
+      year: "2024 — Present",
+      title: "SI-PASS Leader",
+      shortLabel: "SI-PASS",
+      dept: "College Success Strategies",
+      org: "University of Idaho",
+      description: [
+        "Led weekly peer-assisted study sessions to help students understand core Pre-Calculus concepts.",
+        "Facilitated collaborative discussions and guided problem-solving to make complex topics more approachable.",
+        "Worked closely with course instructors to identify and address conceptual gaps during sessions.",
+      ],
+    },
+    {
+      year: "2023 — Present",
+      title: "Lead Tutor",
+      shortLabel: "LEAD TUTOR",
+      dept: "Math & Statistics Center",
+      org: "University of Idaho",
+      description: [
+        "Led bi-weekly strategy meetings with a team of tutors to align coursework and improve tutoring effectiveness.",
+        "Introduced engagement-focused improvements to tutoring sessions to enhance student participation.",
+        "Working toward professional certification aligned with CRLA standards.",
+      ],
+    },
+    {
+      year: "2024",
+      title: "Legend of Warriors",
+      shortLabel: "PROJECT",
+      dept: "Course Project",
+      org: "University of Idaho",
+      description: [
+        "Led a team of 7 in developing a combat-based game, coordinating tasks and project structure.",
+        "Managed version control using Git and GitHub.",
+        "Designed and implemented UI systems, including menus and settings, using Unity and C#.",
+        "Performed boundary and stress testing to ensure stability.",
+        "Applied software engineering concepts such as system design diagrams and project planning tools.",
+      ],
+    },
+    {
+      year: "Summer 2024",
+      title: "Team Lead",
+      shortLabel: "TEAM LEAD",
+      dept: "Facilities",
+      org: "University of Idaho",
+      description: [
+        "Led a team of 30 staff in facilities operations, coordinating daily tasks and maintaining quality standards.",
+        "Conducted inspections and ensured consistency across assigned areas.",
+        "Recognized for leadership and effective team management.",
+      ],
+    },
   ];
 
-  const courseworkRows = [
-    ["Database Management", "Compiler Design"],
-    ["Applied Data Science with Python", "Analysis of Algorithms"],
-    ["Adversarial Machine Learning", "Python for Machine Learning"],
-    ["Deep Learning", ""],
-  ];
+  const sectionRef = useRef(null);
 
-  const [headingText, setHeadingText] = useState("");
-  const [headingDone, setHeadingDone] = useState(false);
-
-  const [visibleEducationCount, setVisibleEducationCount] = useState(0);
-  const [showCourseworkHeader, setShowCourseworkHeader] = useState(false);
-  const [visibleCourseworkRows, setVisibleCourseworkRows] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [experienceHeadingText, setExperienceHeadingText] = useState("");
+  const [updateHeadingText, setUpdateHeadingText] = useState("");
+  const [showExperiencePanel, setShowExperiencePanel] = useState(false);
+  const [showUpdatePanel, setShowUpdatePanel] = useState(false);
+  const [activeExperience, setActiveExperience] = useState(0);
+  const [detailVisible, setDetailVisible] = useState(false);
+  const [aboutDone, setAboutDone] = useState(false);
 
   useEffect(() => {
-    if (headingText.length < headingFull.length) {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.28 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    if (experienceHeadingText.length < experienceHeadingFull.length) {
       const timeout = setTimeout(() => {
-        setHeadingText(headingFull.slice(0, headingText.length + 1));
+        setExperienceHeadingText(
+          experienceHeadingFull.slice(0, experienceHeadingText.length + 1)
+        );
       }, 75);
       return () => clearTimeout(timeout);
     }
 
-    if (!headingDone) {
-      setHeadingDone(true);
+    const timer = setTimeout(() => {
+      setShowExperiencePanel(true);
+      setDetailVisible(true);
+    }, 200);
+
+    if (!aboutDone) {
+      setAboutDone(true);
     }
-  }, [headingText, headingDone, headingFull]);
+
+    return () => clearTimeout(timer);
+  }, [hasStarted, experienceHeadingText, aboutDone, experienceHeadingFull]);
 
   useEffect(() => {
-    if (!headingDone) return;
+    if (!showExperiencePanel) return;
 
-    if (visibleEducationCount < educationLines.length) {
+    if (updateHeadingText.length < updateHeadingFull.length) {
       const timeout = setTimeout(() => {
-        setVisibleEducationCount((prev) => prev + 1);
-      }, 180);
+        setUpdateHeadingText(
+          updateHeadingFull.slice(0, updateHeadingText.length + 1)
+        );
+      }, 75);
       return () => clearTimeout(timeout);
     }
 
-    const headerTimer = setTimeout(() => {
-      setShowCourseworkHeader(true);
-    }, 250);
+    const timer = setTimeout(() => {
+      setShowUpdatePanel(true);
+    }, 200);
 
-    return () => clearTimeout(headerTimer);
-  }, [headingDone, visibleEducationCount, educationLines.length]);
+    return () => clearTimeout(timer);
+  }, [showExperiencePanel, updateHeadingText, updateHeadingFull]);
 
-  useEffect(() => {
-    if (!showCourseworkHeader) return;
+  const handleExperienceChange = (index) => {
+    if (index === activeExperience) return;
 
-    if (visibleCourseworkRows < courseworkRows.length) {
-      const timeout = setTimeout(() => {
-        setVisibleCourseworkRows((prev) => prev + 1);
-      }, 170);
-      return () => clearTimeout(timeout);
-    }
-  }, [showCourseworkHeader, visibleCourseworkRows, courseworkRows.length]);
+    setDetailVisible(false);
+
+    setTimeout(() => {
+      setActiveExperience(index);
+      setDetailVisible(true);
+    }, 180);
+  };
+
+  const currentExperience = experiences[activeExperience];
 
   return (
     <section
+      ref={sectionRef}
       id="journey"
-      className="relative overflow-hidden px-6 pt-24 pb-20 md:px-10 lg:px-12"
+      className="relative overflow-hidden px-6 pb-20 pt-24 md:px-10 lg:px-12"
     >
       <div className="mx-auto grid max-w-6xl items-start gap-16 lg:grid-cols-[1fr_1fr]">
-        {/* LEFT CONTENT */}
-        <div className="order-1 flex justify-center lg:justify-start">
-            <div className="flex h-[420px] w-full max-w-[320px] items-center justify-center rounded-[28px] border border-white/10 bg-white/[0.02] shadow-[0_0_40px_rgba(0,0,0,0.18)]">
-                <div className="text-center">
-                    <p className="font-mono text-sm text-[var(--accent)]">/ journey</p>
-                    <p className="mt-3 text-sm text-slate-500">
-                    optional visual / badge / campus photo
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="order-2 max-w-xl text-left">
-          <p className="mb-6 font-mono text-[14px] text-[var(--accent)]">
-            {headingText}
-            <span className="type-cursor">|</span>
+        <div className="max-w-xl text-left">
+          <p className="ui-section-label">
+            {experienceHeadingText}
+            {hasStarted && !aboutDone && <span className="type-cursor">|</span>}
           </p>
 
-          <div className="space-y-1">
-            {educationLines.map((line, index) => (
-              <p
-                key={line}
-                className={`font-mono transition-all duration-500 ease-out ${
-                  index === 0
-                    ? "text-[14px] text-slate-400"
-                    : "text-[14px] text-slate-200"
-                } ${
-                  visibleEducationCount > index
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-3 opacity-0"
-                }`}
-              >
-                {line}
-              </p>
-            ))}
-          </div>
+          <div className="ui-section-line"></div>
 
           <div
-            className={`mt-10 transition-all duration-500 ease-out ${
-              showCourseworkHeader
+            className={`transition-all duration-700 ${
+              showExperiencePanel
                 ? "translate-y-0 opacity-100"
-                : "translate-y-3 opacity-0"
+                : "translate-y-4 opacity-0"
             }`}
           >
-            <p className="font-mono text-[14px] text-slate-300">
-              $ related_coursework
-            </p>
-          </div>
+            <div className="grid grid-cols-[110px_24px_1fr] gap-x-6">
+              <div className="space-y-8 pt-1">
+                {experiences.map((item, index) => (
+                  <button
+                    key={item.title}
+                    onClick={() => handleExperienceChange(index)}
+                    className={`block text-left font-mono text-[14px] uppercase tracking-[0.08em] transition ${
+                      activeExperience === index
+                        ? "text-[var(--text-main)]"
+                        : "text-[var(--text-muted)] hover:text-[var(--accent)]"
+                    }`}
+                  >
+                    {item.shortLabel}
+                  </button>
+                ))}
+              </div>
 
-          <div className="mt-6 space-y-2">
-            {courseworkRows.map((row, rowIndex) => (
+              <div className="relative flex justify-center">
+                <div className="h-full w-px bg-[var(--border)]" />
+                <div
+                  className="absolute w-[2px] bg-[var(--accent)] transition-all duration-300"
+                  style={{
+                    top: `${activeExperience * 68}px`,
+                    height: "58px",
+                    boxShadow: "0 0 12px var(--accent-soft)",
+                  }}
+                />
+              </div>
+
               <div
-                key={`${row[0]}-${row[1]}`}
-                className={`grid grid-cols-[1fr_24px_1fr] items-start gap-x-2 font-mono text-[14px] transition-all duration-500 ease-out ${
-                  visibleCourseworkRows > rowIndex
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-3 opacity-0"
+                className={`transition-all duration-300 ${
+                  detailVisible
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-4 opacity-0"
                 }`}
               >
-                <div className="group flex items-start gap-1 text-slate-200 transition-colors duration-200 hover:text-[var(--accent)]">
-                  <span className="text-[var(--accent)]">{">"}</span>
-                  <span>{row[0]}</span>
-                </div>
+                <h3 className="ui-card-title" style={{ fontSize: "16px" }}>
+                  {currentExperience.title}
+                </h3>
 
-                <div className="text-center text-slate-500">|</div>
+                <p className="ui-accent-meta mt-1">
+                  {currentExperience.dept}{" "}
+                  <span className="text-[var(--text-muted)]">@</span>{" "}
+                  {currentExperience.org}
+                </p>
 
-                <div>
-                  {row[1] ? (
-                    <div className="group flex items-start gap-2 text-slate-200 transition-colors duration-200 hover:text-[var(--accent)]">
-                      <span className="text-[var(--accent)]">{">"}</span>
-                      <span>{row[1]}</span>
+                <p className="ui-meta mt-2">{currentExperience.year}</p>
+
+                <div className="mt-4 space-y-3">
+                  {currentExperience.description.map((point, i) => (
+                    <div key={i} className="flex gap-3 ui-body">
+                      <span className="font-mono text-[var(--accent)]">{">"}</span>
+                      <span>{point}</span>
                     </div>
-                  ) : (
-                    <span />
-                  )}
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-xl text-left lg:ml-auto">
+          <p className="ui-section-label">
+            {updateHeadingText}
+            {hasStarted && !aboutDone && <span className="type-cursor">|</span>}
+          </p>
+
+          <div className="ui-section-line"></div>
+
+          <div
+            className={`transition-all duration-700 ${
+              showUpdatePanel
+                ? "translate-y-0 opacity-100"
+                : "translate-y-6 opacity-0"
+            }`}
+          >
+            <p className="ui-meta">
+              $ currently_building
+              {hasStarted && <span className="type-cursor">_</span>}
+            </p>
+
+            <div className="ui-body mt-4 space-y-2">
+              <div className="flex gap-2">
+                <span className="text-[var(--accent)]">{">"}</span>
+                <span>Production-Ready SaaS Dashboard</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-[var(--accent)]">{">"}</span>
+                <span>Real-Time Collaboration Tool</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-[var(--accent)]">{">"}</span>
+                <span>Exploring AI/ML systems</span>
+              </div>
+            </div>
+
+            <div className="ui-block-gap">
+              <p className="ui-meta">
+                $ focus
+                {hasStarted && <span className="type-cursor">_</span>}
+              </p>
+
+              <div className="ui-body mt-4 space-y-2">
+                <div className="flex gap-2">
+                  <span className="text-[var(--accent)]">{">"}</span>
+                  <span>Fullstack Engineering</span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-[var(--accent)]">{">"}</span>
+                  <span>API Design</span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="text-[var(--accent)]">{">"}</span>
+                  <span>Scalable Systems</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
