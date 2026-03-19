@@ -257,7 +257,7 @@ export default function About() {
               className="relative h-[400px] w-full max-w-[300px] rounded-[28px] object-cover ui-card"
             />
             <a
-              href="/resume/shruti-debnath-resume.pdf"
+              href="/resume/Shruti_resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-flex items-center ui-terminal-button gap-2 font-mono text-[16px] transition-all duration-300 hover:-translate-y-[2px]"
