@@ -55,8 +55,8 @@ export default function Projects() {
       description:
         "A responsive interface inspired by Netflix built to explore modern frontend design patterns and component architecture.",
       tech: "React · Tailwind CSS · Responsive Design",
-      github: "https://github.com/shruti-246/fun_portfolio",
-      live: "https://shruti-246.github.io/fun_portfolio/",
+      github: "https://github.com/shruti-246/stream-ui-experiment",
+      live: "https://shruti-246.github.io/stream-ui-experiment/",
     },
     {
       title: "Flutter Developer Portfolio",
