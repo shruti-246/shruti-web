@@ -5,14 +5,20 @@ import About from "./components/about/About";
 import Journey from "./components/journey/Journey";
 import Projects from "./components/projects/Projects";
 import Skills from "./components/skills/Skills";
-// import Research from "./components/research/Research";
-// import Teaching from "./components/teaching/Teaching";
-//import Achievements from "./components/achievements/Achievements";
-// import Contact from "./components/contact/Contact";
+import RecommendationForm from "./components/recommendations/RecommendationForm";
+import Recommendations from "./components/recommendations/Recommendations";
 
 function App() {
+  if (window.location.pathname === "/recommend") {
+    return (
+      <div className="min-h-screen text-[var(--text-main)]">
+        <RecommendationForm />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen text-slate-100">
+    <div className="min-h-screen text-[var(--text-main)]">
       <Navbar />
 
       <main>
@@ -21,10 +27,7 @@ function App() {
         <Journey />
         <Projects />
         <Skills />
-        {/* <Achievements /> */}
-        {/* <Research />
-        <Teaching /> */}
-        {/* <Contact /> */}
+        <Recommendations />
       </main>
 
       <Footer />
