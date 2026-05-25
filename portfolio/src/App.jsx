@@ -27,7 +27,7 @@ function App() {
         <Journey />
         <Projects />
         <Skills />
-        <Recommendations />
+        {/* <Recommendations /> */}
       </main>
 
       <Footer />
