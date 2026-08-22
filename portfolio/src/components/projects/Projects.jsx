@@ -44,11 +44,12 @@ export default function Projects() {
 
   const moreProjects = [
     {
-      title: "Pong Game in C#",
-      description: "A classic Pong game implemented in C# using Unity.",
-      tech: "C# · Unity · Game Development",
-      github: "https://github.com/shruti-246/Unity-Pong",
-      live: "#",
+      title: "Diabetes Classification",
+      description:
+        "A machine learning project that predicts diabetes risk from health indicators by comparing multiple classification models.",
+      tech: "Python · scikit-learn · Pandas · NumPy · Machine Learning",
+      github: "https://github.com/shruti-246/Diabetes_caseStudy",
+      live: "https://drive.google.com/file/d/1vRXRzs1yv1Ue34rgDflY32JrqqEqW7pu/view?usp=sharing",
     },
     {
       title: "Netflix UI Clone",
@@ -57,6 +58,13 @@ export default function Projects() {
       tech: "React · Tailwind CSS · Responsive Design",
       github: "https://github.com/shruti-246/stream-ui-experiment",
       live: "https://shruti-246.github.io/stream-ui-experiment/",
+    },
+    {
+      title: "Pong Game in C#",
+      description: "A classic Pong game implemented in C# using Unity.",
+      tech: "C# · Unity · Game Development",
+      github: "https://github.com/shruti-246/Unity-Pong",
+      // live: "#",
     },
     {
       title: "Flutter Developer Portfolio",
